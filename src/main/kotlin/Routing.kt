@@ -53,6 +53,13 @@ fun Application.configureRouting() {
                 }
                 call.respond(NoteResponse(id, NoteCrypto.decrypt(note.encryptedContent)))
             }
+            get("/notes") {
+                val principal = call.principal<JWTPrincipal>()!!
+                val ownerId = principal.payload.subject
+                val myNotes = notesDb.filter { it.value.ownerId == ownerId }
+                    .map { (id, note) -> NoteResponse(id, NoteCrypto.decrypt(note.encryptedContent)) }
+                call.respond(myNotes)
+            }
         }
     }
 }
