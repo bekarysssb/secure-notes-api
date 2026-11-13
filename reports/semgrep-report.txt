@@ -1,0 +1,26 @@
+                   
+                   
+┌─────────────────┐
+│ 4 Code Findings │
+└─────────────────┘
+                                  
+    /src/src/main/kotlin/Crypto.kt
+     ❱ kotlin.lang.security.gcm-detection.gcm-detection
+          ❰❰ Blocking ❱❱
+          GCM detected, please check that IV/nonce is not reused, an Initialization Vector (IV) is a nonce    
+          used to randomize the encryption, so that even if multiple messages with identical plaintext are    
+          encrypted, the generated corresponding ciphertexts are different.Unlike the Key, the IV usually does
+          not need to be secret, rather it is important that it is random and unique. Certain encryption      
+          schemes the IV is exchanged in public as part of the ciphertext. Reusing same Initialization Vector 
+          with the same Key to encrypt multiple plaintext blocks allows an attacker to compare the ciphertexts
+          and then, with some assumptions on the content of the messages, to gain important information about 
+          the data being encrypted.                                                                           
+          Details: https://sg.run/WpPA                                                                        
+                                                                                                              
+           17┆ val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            ⋮┆----------------------------------------
+           18┆ cipher.init(Cipher.ENCRYPT_MODE, secretKey, GCMParameterSpec(128, iv))
+            ⋮┆----------------------------------------
+           27┆ val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+            ⋮┆----------------------------------------
+           28┆ cipher.init(Cipher.DECRYPT_MODE, secretKey, GCMParameterSpec(128, iv))
