@@ -15,6 +15,8 @@ application {
 kotlin {
     jvmToolchain(21)
 }
+dependencyLocking {
+    lockAllConfigurations() }
 dependencies {
     implementation(ktorLibs.serialization.kotlinx.json)
     implementation(ktorLibs.server.auth)
