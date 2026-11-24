@@ -3,3 +3,7 @@ build/
 .idea/
 local.properties
 *.log
+.env
+secrets/
+nginx/certs/server.key
+body.json

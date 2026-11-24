@@ -1,0 +1,26 @@
+{
+  "realm": "secure-notes",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 300,
+  "clients": [{
+    "clientId": "secure-notes-api",
+    "enabled": true,
+    "publicClient": false,
+    "secret": "demo-client-secret-change-me",
+    "directAccessGrantsEnabled": true,
+    "standardFlowEnabled": true,
+    "redirectUris": ["https://localhost:8443/*"]
+  }],
+  "users": [{
+    "username": "demo",
+    "enabled": true,
+    "email": "demo@example.com",
+    "emailVerified": true,
+    "firstName": "Demo",
+    "lastName": "User",
+    "credentials": [{ "type": "password", "value": "demo-password-change-me", "temporary": false }]
+  }]
+}

@@ -7,10 +7,13 @@ import javax.crypto.spec.SecretKeySpec
 import java.util.Base64
 
 object NoteCrypto {
-    private val key = System.getenv("AES_KEY")?.let { Base64.getDecoder().decode(it) }
-        ?: ByteArray(32).also { SecureRandom().nextBytes(it) } // demo fallback, для прода только env var
-
-    private val secretKey = SecretKeySpec(key, "AES")
+    private fun loadKey(): ByteArray {
+        val b64 = System.getenv("AES_KEY")
+            ?: System.getenv("AES_KEY_FILE")?.let { java.io.File(it).readText().trim() }
+            ?: error("Set AES_KEY or AES_KEY_FILE")
+        return Base64.getDecoder().decode(b64).also { require(it.size == 32) }
+    }
+    private val secretKey = SecretKeySpec(loadKey(), "AES")
 
     fun encrypt(plainText: String): String {
         val iv = ByteArray(12).also { SecureRandom().nextBytes(it) }
